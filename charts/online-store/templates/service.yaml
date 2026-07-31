@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: {{ include "online-store.fullname" . }}
   labels:
-    app: {{ include "online-store.name" . }}
+    {{- include "online-store.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: 8000
+      targetPort: {{ .Values.containerPort }}
       protocol: TCP
       name: http
     - port: 9090
@@ -16,4 +16,4 @@ spec:
       protocol: TCP
       name: metrics
   selector:
-    app: {{ include "online-store.name" . }}
+    {{- include "online-store.selectorLabels" . | nindent 4 }}
